@@ -5,10 +5,10 @@ public class Piloto extends Personas {
     
     private int horas;
 
-    public Piloto(int horas, int id, String nombres, int edad, Vuelos vuelo, String categoria) {
-        super(id, nombres, edad, vuelo, categoria);
-        this.horas = horas;
-        calcularCategoria();
+    public Piloto(int id, String nombres, int edad, Vuelos vuelo, int horas) {
+    super(id, nombres, edad, vuelo, "Sin Categoría");
+    this.horas = horas; 
+    calcularCategoria();
     }
  
     @Override

@@ -6,11 +6,11 @@ public class Azafata extends Personas {
     private double altura;
     private int idiomas;
 
-    public Azafata(double altura, int idiomas, int id, String nombres, int edad, Vuelos vuelo, String categoria) {
-        super(id, nombres, edad, vuelo, categoria);
-        this.altura = altura;
-        this.idiomas = idiomas;
-         calcularCategoria();
+    public Azafata(int id, String nombres, int edad, Vuelos vuelo, double altura, int idiomas) {
+    super(id, nombres, edad, vuelo, "Sin Categoría");
+    this.altura = altura; 
+    this.idiomas = idiomas; 
+    calcularCategoria();
     }
 
     

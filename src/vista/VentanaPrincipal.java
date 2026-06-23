@@ -6,7 +6,7 @@ package vista;
 
 /**
  *
- * @author Gustavo
+ 
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
     

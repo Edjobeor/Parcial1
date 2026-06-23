@@ -140,7 +140,7 @@ public class VistaLogin extends javax.swing.JFrame {
             // 2. Crear y mostrar la VentanaAeropuerto
             VentanaPrincipal ventana = new VentanaPrincipal();
             ventana.setVisible(true);
-
+            //
             // 3. Cerrar la ventana de Login actual
             this.dispose(); 
             

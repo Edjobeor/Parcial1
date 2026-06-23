@@ -6,7 +6,6 @@ import aerolinea.Vuelos;
 import implementacion.Principal;
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -15,7 +14,6 @@ public class VentanaAeropuerto extends JFrame {
     private JTextArea areaConsola;
     private JButton btnCargar, btnMostrar, btnDestino, btnPiloto, btnAgregarManual;
     
-    // Cajas de texto para que TÚ ingreses datos manualmente
     private JTextField txtId, txtNombre, txtEdad, txtAsiento, txtPrecio;
     
     private Principal controlador;
@@ -24,51 +22,50 @@ public class VentanaAeropuerto extends JFrame {
         controlador = new Principal();
         
         setTitle("Aeropuerto UNET - Modo Interactivo Completo");
-        setSize(800, 650);
+        setSize(850, 650); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // 1. PANEL SUPERIOR: Carga automática + FORMULARIO MANUAL
-        JPanel panelSuperiorMaster = new JPanel(new GridLayout(2, 1, 5, 5));
+        JPanel panelSuperiorMaster = new JPanel(new BorderLayout(5, 5));
         
-        btnCargar = new JButton("1. Cargar Base de Datos Automática (Examen)");
+        btnCargar = new JButton("1. Cargar Base de Datos Automática");
         btnCargar.setFont(new Font("Arial", Font.BOLD, 12));
-        panelSuperiorMaster.add(btnCargar);
+        panelSuperiorMaster.add(btnCargar, BorderLayout.NORTH);
         
-        // Formulario para meter "cositas" de Pasajeros
         JPanel panelFormulario = new JPanel(new GridLayout(2, 6, 5, 5));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Agregar Pasajero Manualmente"));
         
-        panelFormulario.add(new JLabel("ID / Cédula:"));
-        txtId = new JTextField(); panelFormulario.add(txtId);
+        panelFormulario.add(new JLabel("ID / Cédula:", JLabel.RIGHT));
+        txtId = new JTextField(10); panelFormulario.add(txtId);
         
-        panelFormulario.add(new JLabel("Nombre:"));
-        txtNombre = new JTextField(); panelFormulario.add(txtNombre);
+        panelFormulario.add(new JLabel("Nombre:", JLabel.RIGHT));
+        txtNombre = new JTextField(10); panelFormulario.add(txtNombre);
         
-        panelFormulario.add(new JLabel("Edad:"));
-        txtEdad = new JTextField(); panelFormulario.add(txtEdad);
+        panelFormulario.add(new JLabel("Edad:", JLabel.RIGHT));
+        txtEdad = new JTextField(10); panelFormulario.add(txtEdad);
         
-        panelFormulario.add(new JLabel("Asiento:"));
-        txtAsiento = new JTextField(); panelFormulario.add(txtAsiento);
+        panelFormulario.add(new JLabel("Asiento:", JLabel.RIGHT));
+        txtAsiento = new JTextField(10); panelFormulario.add(txtAsiento);
         
-        panelFormulario.add(new JLabel("Precio Pasaje:"));
-        txtPrecio = new JTextField(); panelFormulario.add(txtPrecio);
+        panelFormulario.add(new JLabel("Precio Pasaje:", JLabel.RIGHT));
+        txtPrecio = new JTextField(10); panelFormulario.add(txtPrecio);
         
         btnAgregarManual = new JButton("Registrar");
         panelFormulario.add(btnAgregarManual);
+        panelFormulario.add(new JLabel("")); // Celda vacía de relleno para cuadrar el GridLayout (2x6=12)
         
-        panelSuperiorMaster.add(panelFormulario);
+        panelSuperiorMaster.add(panelFormulario, BorderLayout.CENTER);
         add(panelSuperiorMaster, BorderLayout.NORTH);
 
-        // 2. MONITOR CENTRAL
+
         areaConsola = new JTextArea();
         areaConsola.setFont(new Font("Monospaced", Font.PLAIN, 12));
         areaConsola.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(areaConsola);
         add(scrollPane, BorderLayout.CENTER);
 
-        // 3. PANEL INFERIOR (Consultas)
+  
         JPanel panelInferior = new JPanel(new GridLayout(1, 3, 10, 10));
         panelInferior.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
         btnMostrar = new JButton("Ver Pasajeros y Tripulación");
@@ -89,23 +86,31 @@ public class VentanaAeropuerto extends JFrame {
 
         btnAgregarManual.addActionListener(e -> {
             try {
-                // 1. Capturamos lo que tú escribiste en las cajitas de la pantalla
-                int id = Integer.parseInt(txtId.getText());
-                String nombre = txtNombre.getText();
-                int edad = Integer.parseInt(txtEdad.getText());
-                String asiento = txtAsiento.getText();
-                int precio = Integer.parseInt(txtPrecio.getText());
+                int id = Integer.parseInt(txtId.getText().trim());
+                String nombre = txtNombre.getText().trim();
+                int edad = Integer.parseInt(txtEdad.getText().trim());
+                String asiento = txtAsiento.getText().trim();
+                int precio = Integer.parseInt(txtPrecio.getText().trim());
                 
-                // Asignamos un vuelo por defecto (ej. el primero de la lista)
-                Vuelos vueloPorDefecto = new Vuelos("UNET Airlines", "UNET100", "San Cristóbal");
                 
-                // 2. Creamos el nuevo objeto Pasajero en caliente con tus datos
+                if(nombre.isEmpty() || asiento.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos de texto.", "Campos Vacíos", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+               
+                Vuelos vueloPorDefecto;
+                if (!controlador.getViajes().isEmpty()) {
+                    vueloPorDefecto = controlador.getViajes().get(0);
+                } else {
+                    vueloPorDefecto = new Vuelos("UNET Airlines", "UNET100", "San Cristóbal");
+                    controlador.getViajes().add(vueloPorDefecto);
+                }
+                
                 Pasajero nuevoPasajero = new Pasajero(id, nombre, edad, vueloPorDefecto, asiento, precio);
                 
-                // 3. ¡Lo metemos al ArrayList usando .add() mediante un nuevo método que agregaremos!
                 controlador.getViajeros().add(nuevoPasajero);
                 
-                // 4. Limpiamos las cajitas para que metas otro
                 txtId.setText(""); txtNombre.setText(""); txtEdad.setText(""); txtAsiento.setText(""); txtPrecio.setText("");
                 
                 areaConsola.setText("¡Felicidades! Agregaste a '" + nombre + "' manualmente a la RAM del sistema.\n"
@@ -116,7 +121,7 @@ public class VentanaAeropuerto extends JFrame {
             }
         });
 
-        // Botones analíticos habituales
+
         btnMostrar.addActionListener(e -> areaConsola.setText(controlador.mostrarCategoria()));
         btnDestino.addActionListener(e -> areaConsola.setText(controlador.destinoFavorito()));
         btnPiloto.addActionListener(e -> areaConsola.setText(controlador.mejorPiloto()));

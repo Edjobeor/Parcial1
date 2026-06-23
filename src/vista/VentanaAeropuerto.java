@@ -1,5 +1,4 @@
-
-package Vista;
+package vista;
 
 import aerolinea.Pasajero;
 import aerolinea.Vuelos;

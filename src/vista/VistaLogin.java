@@ -134,14 +134,13 @@ public class VistaLogin extends javax.swing.JFrame {
       String usuario = txtUsuario.getText().trim();
         String password = new String(txtContrasenia.getPassword()).trim();
 
-        // 1. Validación de login utilizando tus variables globales
+        
         if (usuario.equals(usuarioCorrecto) && password.equals(claveCorrecta)) {
             
-            // 2. Crear y mostrar la VentanaAeropuerto
+            
             VentanaPrincipal ventana = new VentanaPrincipal();
             ventana.setVisible(true);
-            //
-            // 3. Cerrar la ventana de Login actual
+           
             this.dispose(); 
             
         } else {
@@ -169,7 +168,7 @@ public class VistaLogin extends javax.swing.JFrame {
             System.err.println("No se pudo establecer el Look and Feel: " + ex.getMessage());
         }
 
-        /* Crear y mostrar el formulario (Se eliminó el duplicado) */
+        
         java.awt.EventQueue.invokeLater(() -> {
             new VistaLogin().setVisible(true);
         });   

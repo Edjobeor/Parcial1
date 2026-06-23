@@ -1,12 +1,15 @@
 
 package vista;
 
+import javax.swing.JOptionPane;
+
 public class VistaLogin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaLogin.class.getName());
     
+    // Variables de credenciales
     private String usuarioCorrecto = "admin";
-    private String claveCorrecta = "12345";
+    private String claveCorrecta = "12345"; // <-- Tu contraseña configurada aquí es 12345
     
     public VistaLogin() {
         initComponents();
@@ -14,7 +17,6 @@ public class VistaLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Acceso al Sistema");
         
-        // Se cambió jPanel2 por jPanel1 para que use el contenedor existente y no falle
         jPanel1.setLayout(new java.awt.BorderLayout());
         try {
             java.net.URL imgURL = getClass().getResource("/imagenes/encabezado.png");
@@ -26,12 +28,11 @@ public class VistaLogin extends javax.swing.JFrame {
                 );
                 
                 javax.swing.JLabel lblBanner = new javax.swing.JLabel(new javax.swing.ImageIcon(imgEscalada));
-                jPanel1.add(lblBanner, java.awt.BorderLayout.NORTH); // Añadido arriba como encabezado
+                jPanel1.add(lblBanner, java.awt.BorderLayout.NORTH); 
             }
         } catch (Exception e) {
             System.out.println("No se pudo cargar la imagen del encabezado: " + e.getMessage());
         }
-        
     }
 
     
@@ -130,20 +131,22 @@ public class VistaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String usuarioIngresado = txtUsuario.getText();
-        String claveIngresada = new String(txtContrasenia.getPassword()); 
+      String usuario = txtUsuario.getText().trim();
+        String password = new String(txtContrasenia.getPassword()).trim();
 
-        if (usuarioIngresado.equals(usuarioCorrecto) && claveIngresada.equals(claveCorrecta)) {
-            javax.swing.JOptionPane.showMessageDialog(this, "¡Bienvenido al sistema!", "Acceso Concedido", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        // 1. Validación de login utilizando tus variables globales
+        if (usuario.equals(usuarioCorrecto) && password.equals(claveCorrecta)) {
             
-            // SE ELIMINÓ: La inicialización y apertura de VentanaPrincipal, así como el this.dispose()
+            // 2. Crear y mostrar la VentanaAeropuerto
+            VentanaPrincipal ventana = new VentanaPrincipal();
+            ventana.setVisible(true);
+
+            // 3. Cerrar la ventana de Login actual
+            this.dispose(); 
             
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de Autenticación", javax.swing.JOptionPane.ERROR_MESSAGE);
-            txtUsuario.setText("");
-            txtContrasenia.setText("");
-            txtUsuario.requestFocus();
-        }        // TODO add your handling code here:
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error de Autenticación", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseniaActionPerformed
@@ -166,32 +169,10 @@ public class VistaLogin extends javax.swing.JFrame {
             System.err.println("No se pudo establecer el Look and Feel: " + ex.getMessage());
         }
 
-        /* Crear y mostrar el formulario usando sintaxis compatible estándar */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaLogin().setVisible(true);
-            }
-        });
-        
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VistaLogin().setVisible(true));
+        /* Crear y mostrar el formulario (Se eliminó el duplicado) */
+        java.awt.EventQueue.invokeLater(() -> {
+            new VistaLogin().setVisible(true);
+        });   
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

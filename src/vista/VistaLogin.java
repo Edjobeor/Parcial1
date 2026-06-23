@@ -9,10 +9,10 @@ public class VistaLogin extends javax.swing.JFrame {
     
     // Variables de credenciales
     private String usuarioCorrecto = "admin";
-    private String claveCorrecta = "12345"; // <-- Tu contraseña configurada aquí es 12345
+    private String claveCorrecta = "12345"; 
     
     public VistaLogin() {
-        initComponents(); //
+        initComponents(); // 
         
         setLocationRelativeTo(null);
         setTitle("Acceso al Sistema");
